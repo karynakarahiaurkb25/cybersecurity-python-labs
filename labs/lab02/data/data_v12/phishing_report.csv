@@ -1,0 +1,7 @@
+id,risk_level,risk_score,verdict,subject,from,return_path,reply_to,sender_mismatch,reply_to_mismatch,stopwords_found,hop_count
+001,LOW RISK,0,LEGITIMATE / CLEAN,Updated holiday policy,HR Department <hr@example.com>,<hr@example.com>,hr@example.com,False,False,,2
+002,HIGH RISK,90,CRITICAL PHISHING SUSPECT,URGENT: Verify your account immediately,Security Team <security@example.com>,<bounce@mailer.example.com>,support@evil-example.invalid,True,True,"urgent, verify your account",3
+003,LOW RISK,0,LEGITIMATE / CLEAN,Invoice for September,Finance <finance@example.com>,<finance@example.com>,finance@example.com,False,False,,1
+004,HIGH RISK,100,CRITICAL PHISHING SUSPECT,Password expired - reset now,IT Helpdesk <helpdesk@example.com>,<notifications@updates.example.invalid>,password-reset@updates.example.invalid,True,True,"password expired, reset now",4
+005,LOW RISK,0,LEGITIMATE / CLEAN,Meeting agenda for Monday,CEO Office <ceo@example.com>,<ceo@example.com>,ceo@example.com,False,False,,1
+006,HIGH RISK,90,CRITICAL PHISHING SUSPECT,CONFIDENTIAL: payment required today,Payroll <payroll@example.com>,<payroll@billing-example.invalid>,payroll@billing-example.invalid,True,True,"payment required, confidential",1

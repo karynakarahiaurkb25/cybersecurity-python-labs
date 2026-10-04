@@ -106,6 +106,7 @@ class Session:
         return delta < timedelta(seconds=timeout_sec)
 
 @dataclass(frozen=True)
+
 class AuditRecord:
     timestamp: datetime
     username: str

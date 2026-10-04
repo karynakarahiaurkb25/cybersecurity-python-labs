@@ -18,9 +18,10 @@ python -m venv .venv
 pip install -r requirements.txt
 
 labs/lab02/
-├── __init__.py
+├──__pycache__
+├──__init__.py
 ├── task01.py                   # Завдання 1: Класи User, Admin, Session, AuditLog, UserAccount
-├── email_analyzer.py           # Завдання 2: CLI-утиліта аналізу поштових дампів
+├── task02.py           # Завдання 2: CLI-утиліта аналізу поштових дампів
 ├── main.py                     # Диспетчер запуску режимів demo та analyze
 ├── README.md                   # Документація лабораторної роботи
 └── data/
@@ -35,7 +36,7 @@ labs/lab02/
 
 * python -m labs.lab02.main demo
 
-* python -m labs.lab02.main analyze --mail-log labs/lab02/data/data_v12/mail_headers.log --suspicious-keywords labs/lab02/data/data_v12/suspicious_keywords.txt --out-csv labs/lab02/data/data_v12/phishing_report.csv
+* python -m labs.lab02.task02 --mail-log labs/lab02/data/data_v12/mail_headers.log --suspicious-keywords labs/lab02/data/data_v12/suspicious_keywords.txt --out-csv labs/lab02/data/data_v12/phishing_report.csv
 
 ## 4. Oпис параметрів CLI
 * --mail-log (обов'язковий): шлях до текстового файлу з дампами повідомлень (mail_headers.log).
@@ -49,3 +50,34 @@ labs/lab02/
 * Якщо окремі заголовки у повідомленні відсутні, парсер підставляє значення за замовчуванням, не зупиняючи аналіз решти дампа.
 
 * У разі введення помилкових чи неповних аргументів модуль argparse виводить підказку про використання.
+## 6. Вхідні файли програми
+
+Утиліта аналізу поштових заголовків (`task02.py`) приймає на вхід два файли зі збереженням структури та назв з архіву `data_v12`:
+
+1. **`labs/lab02/data/data_v12/mail_headers.log`**  
+   * **Тип:** Текстовий дамп поштових повідомлень, розділених маркером `--- MESSAGE ---`.
+   * **Вміст:** Службові заголовки електронних листів: `Message-ID`, `From`, `Return-Path`, `Reply-To`, ланцюжки ретрансляції `Received` та тема `Subject`.
+   * **Призначення:** Використовується для виявлення спуфінгу (розбіжності полів відправника), підрахунку кількості проміжних вузлів маршрутизації та вилучення тем для аналізу.
+
+2. **`labs/lab02/data/data_v12/suspicious_keywords.txt`**  
+   * **Тип:** Словник стоп-слів та фішингових фраз (по одній на рядок, у нижньому регістрі).
+   * **Вміст:** Ключові маркери соціальної інженерії: `urgent`, `verify your account`, `password expired`, `reset now`, `payment required`, `confidential`.
+   * **Призначення:** Використовується для контекстного пошуку підозрілих патернів у полі `Subject` кожного листа.
+
+---
+
+## 7. Вихідні дані
+
+* **`labs/lab02/data/data_v12/phishing_report.csv`**  
+  Табличний звіт аудиту безпеки, що формується автоматично за результатами аналізу. Містить ідентифікатори повідомлень, розраховані бали ризику (`Risk Score`), рівень загрози (`Risk Level`), статус невідповідності доменів, знайдені стоп-слова та кінцевий вердикт.
+
+---
+
+## 8. Приклади команд із фактичними назвами файлів
+
+Усі команди виконуються з активованим віртуальним середовищем із кореня репозиторію `cybersecurity-python-labs`:
+
+### Стандартний запуск аналізу з формуванням CSV-звіту
+```powershell
+python -m labs.lab02.task02 --mail-log labs/lab02/data/data_v12/mail_headers.log --suspicious-keywords labs/lab02/data/data_v12/suspicious_keywords.txt --out-csv labs/lab02/data/data_v12/phishing_report.csv
+```
